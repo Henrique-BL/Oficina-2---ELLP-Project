@@ -52,6 +52,7 @@ A arquitetura deste projeto é baseada em uma abordagem de três camadas princip
 | **Backend**         | FastAPI              | API REST para cadastro e geração de certificados |
 | **Banco de Dados**  | PostgreSQL, SQLAlchemy | Persistência de dados e manipulação com ORM |
 | **Migrations**  | Alembic | Controle de mudanças (migrations) no banco de dados  |
+| **Container**  | Docker | Definição de containers, ambientes e imagens utilizadas no projeto  |
 | **Geração de PDF**  | ReportLab ou WeasyPrint | Criação de certificados PDF                 |
 | **Testes**          | Pytest      | Automação de testes para assegurar qualidade |
 
