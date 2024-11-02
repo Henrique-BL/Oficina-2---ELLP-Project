@@ -3,6 +3,10 @@
 
 Este projeto tem como objetivo gerenciar o cadastro de alunos voluntários e permitir a geração de certificados para atividades realizadas no projeto de extensão da ELLP da UTFPR. 
 
+## Repositório de Requisitos Funcionais e Scripts de Teste
+
+https://docs.google.com/document/d/1iE47Ov9iKo7-fqfxT6soyRNzELpT3FdiURancwWl-MQ/edit?usp=sharing
+
 ## Arquitetura do Sistema
 
 A arquitetura deste projeto é baseada em uma abordagem de três camadas principais: **Frontend**, **Backend** e **Banco de Dados**. Abaixo, detalhamos cada um dos componentes e suas tecnologias.
