@@ -6,6 +6,7 @@ Este projeto tem como objetivo gerenciar o cadastro de alunos voluntários e per
 ## Arquitetura do Sistema
 
 A arquitetura deste projeto é baseada em uma abordagem de três camadas principais: **Frontend**, **Backend** e **Banco de Dados**. Abaixo, detalhamos cada um dos componentes e suas tecnologias.
+![napkin-selection (1)](https://github.com/user-attachments/assets/268d2ae9-9e28-4a63-b6ce-76ee2ea57aae)
 
 ### 1. Frontend
 - **Tecnologia**: React
