@@ -5,7 +5,7 @@ Este projeto tem como objetivo gerenciar o cadastro de alunos voluntários e per
 
 ## Repositório de Requisitos Funcionais e Scripts de Teste
 
-Os requisitos funcionais e suas respectivas descrições e os roteiros automatizados de teste podem ser encontrados aqui. [Reposório](https://docs.google.com/document/d/1iE47Ov9iKo7-fqfxT6soyRNzELpT3FdiURancwWl-MQ/edit?usp=sharing)
+Os requisitos funcionais e suas respectivas descrições e os roteiros automatizados de teste podem ser encontrados [aqui](https://docs.google.com/document/d/1iE47Ov9iKo7-fqfxT6soyRNzELpT3FdiURancwWl-MQ/edit?usp=sharing).
 
 ## Arquitetura do Sistema
 
