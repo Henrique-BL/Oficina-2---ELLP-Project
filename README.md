@@ -7,6 +7,9 @@ Este projeto tem como objetivo gerenciar o cadastro de alunos voluntários e per
 
 Os requisitos funcionais e suas respectivas descrições e os roteiros automatizados de teste podem ser encontrados [aqui](https://docs.google.com/document/d/1iE47Ov9iKo7-fqfxT6soyRNzELpT3FdiURancwWl-MQ/edit?usp=sharing).
 
+## Protótipos Front-end
+[Figma](https://www.figma.com/design/es0iuy9vC95dO182IFBzVY/projeto-ellp?node-id=0-1&t=B4fgZEXiUSjEUgWz-1).
+
 ## Arquitetura do Sistema
 
 A arquitetura deste projeto é baseada em uma abordagem de três camadas principais: **Frontend**, **Backend** e **Banco de Dados**. Abaixo, detalhamos cada um dos componentes e suas tecnologias.
