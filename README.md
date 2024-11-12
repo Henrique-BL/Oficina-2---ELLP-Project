@@ -13,7 +13,9 @@ Os requisitos funcionais e suas respectivas descrições e os roteiros automatiz
 ## Arquitetura do Sistema
 
 A arquitetura deste projeto é baseada em uma abordagem de três camadas principais: **Frontend**, **Backend** e **Banco de Dados**. Abaixo, detalhamos cada um dos componentes e suas tecnologias.
-![napkin-selection (1)](https://github.com/user-attachments/assets/268d2ae9-9e28-4a63-b6ce-76ee2ea57aae)
+### Backend
+![image](https://github.com/user-attachments/assets/2f444b13-af2f-442e-9fe5-d8ad9d860f42)
+### Frontend
 
 ### 1. Frontend
 - **Tecnologia**: React
