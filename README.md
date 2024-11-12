@@ -16,6 +16,7 @@ A arquitetura deste projeto é baseada em uma abordagem de três camadas princip
 ### Backend
 ![image](https://github.com/user-attachments/assets/2f444b13-af2f-442e-9fe5-d8ad9d860f42)
 ### Frontend
+![image](https://www.plantuml.com/plantuml/png/ZPIn3jCm48PtFyKfIs6es1bGgnPOG4WTodoohyLgScVP3WE8Xq4CdHXvWhmOvw18QPgKPZn__v-x-orlKiQOswOsPWLxEddsx0G40bh9125wjZvW3Lfz5uKpiJDwUC4pGJLKuCM1qEQN5NmteDyATj84OU9R3mGCjRVONRjVqfDsu60RWhaJ9w0Ko7Q_JzvAAaqadp8rE15NEtIOSXHm14UfMyxTp-WbLKlWgmzozbpmhMjqRAsXarWzCluiyPA-IBY3tbFiP-gf7SNijLzqvVS_ZBdPXW9A4rkFZHPwnTkK5JQtXdD8DJKJs7_w24Ul6VxBgCzXx3G-7rAQTL6f8Yp0-9NEPHTJcmBqsWFLPTm_9HxEaK0Is75cq3iQZHJMwpSFqe7Nq2QSWClfJFZvTARGSZe3QHuqg0xBSQWUosRzDpJ_x_rvg_cndjSlJ_oyYLccr6F-Oga-URPHk3ZC8oeUNITLH697KGNGj0wvks8oPgF5yYpz1G00)
 
 ### 1. Frontend
 - **Tecnologia**: React
