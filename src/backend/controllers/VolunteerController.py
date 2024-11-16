@@ -14,7 +14,7 @@ async def create_volunteer(db_session: DataBaseDependency, volunteer_in: Volunte
     sector = (
         (
             await db_session.execute(
-                select(Sector).filter_by(name=volunteer_in.sector_name)
+                select(Sector).filter_by(name=volunteer_in.sector.name)
             )
         )
         .scalars()
@@ -24,7 +24,7 @@ async def create_volunteer(db_session: DataBaseDependency, volunteer_in: Volunte
     if not sector:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"The sector {volunteer_in.sector_name} was not found",
+            detail=f"The sector {volunteer_in.sector.name} was not found",
         )
     
     return await Volunteer.create(db_session, volunteer_in)
