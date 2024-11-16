@@ -14,3 +14,5 @@ class Volunteer(BaseModel):
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now, nullable=False)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
     sector_id: Mapped[int] = mapped_column(Integer, ForeignKey("sectors.pk_id"), nullable=False)
+
+    

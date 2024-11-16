@@ -8,7 +8,8 @@ class VolunteerBaseSchema(BaseSchema):
     email: Annotated[str, Field(description="Email do voluntário")]
     phone: Annotated[str, Field(description="Telefone do voluntário")]
     student_code: Annotated[str, Field(description="Código de estudante do voluntário")]
-    sector: Annotated[SectorIn, Field(description="Setor do voluntário")]
+    is_active: Annotated[bool, Field(description="Status do voluntário")]
+    sector_id: Annotated[int, Field(description="Setor do voluntário")]
     
 class VolunteerIn(VolunteerBaseSchema):
     pass
