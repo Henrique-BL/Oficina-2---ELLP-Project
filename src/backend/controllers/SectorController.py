@@ -27,13 +27,13 @@ async def post(db_session: DataBaseDependency, sector_in: SectorIn = Body(...)) 
     
     return sector_out
 
-@router.get("/sectors", response_model=list[SectorOut])
+@router.get("/", response_model=list[SectorOut])
 async def query(db_session: DataBaseDependency) -> list[SectorOut]:
     sectors: list[SectorOut] = (await db_session.execute(select(Sector))).scalars().all()
     print('Sectors', sectors)
     return [SectorOut.model_validate(sector) for sector in sectors]
 
-@router.get("/sectors/{sector_id}", response_model=SectorOut)
+@router.get("/{sector_id}", response_model=SectorOut)
 async def get(db_session: DataBaseDependency, sector_id: UUID4) -> SectorOut:
 
     sector: SectorOut = (await db_session.execute(select(Sector).filter_by(id=sector_id))).scalar_one_or_none()
@@ -44,7 +44,7 @@ async def get(db_session: DataBaseDependency, sector_id: UUID4) -> SectorOut:
     return sector
 
 
-@router.delete("/sectors/{sector_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/{sector_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete(db_session: DataBaseDependency, sector_id: UUID4) -> None:
     sector: SectorOut = (await db_session.execute(select(Sector).filter_by(id=sector_id))).scalar_one_or_none()
     
