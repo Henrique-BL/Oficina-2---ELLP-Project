@@ -1,5 +1,6 @@
 from typing import Annotated
 from pydantic import Field
+from pydantic.types import UUID
 from schemas.BaseSchema import BaseSchema, OutMixin
 from schemas.SectorSchema import SectorIn
 
@@ -9,7 +10,7 @@ class VolunteerBaseSchema(BaseSchema):
     phone: Annotated[str, Field(description="Telefone do voluntário")]
     student_code: Annotated[str, Field(description="Código de estudante do voluntário")]
     is_active: Annotated[bool, Field(description="Status do voluntário")]
-    sector_id: Annotated[int, Field(description="Setor do voluntário")]
+    sector: Annotated[UUID, Field(description="Setor do voluntário")]
     
 class VolunteerIn(VolunteerBaseSchema):
     pass

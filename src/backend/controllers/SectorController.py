@@ -9,7 +9,7 @@ from datetime import datetime
 from pydantic import ValidationError
 
 router = APIRouter()    
-@router.post("/sectors", response_model=SectorOut)
+@router.post("/", response_model=SectorOut, status_code=status.HTTP_201_CREATED)
 async def post(db_session: DataBaseDependency, sector_in: SectorIn = Body(...)) -> SectorOut:
     
     sector = (await db_session.execute(select(Sector).filter_by(name=sector_in.name))).scalar_one_or_none()
