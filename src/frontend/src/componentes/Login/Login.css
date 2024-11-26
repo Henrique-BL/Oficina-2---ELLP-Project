@@ -1,0 +1,135 @@
+/* Estilo geral */
+body {
+    margin: 0;
+    font-family: "Arial", sans-serif;
+    background-color: #0e3260; /* Fundo azul */
+}
+
+/* Contêiner principal */
+.container {
+    display: flex;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Card principal */
+.card {
+    display: flex;
+    width: 800px;
+    height: 500px;
+    background-color: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    transition: 0.6s ease-in-out;
+}
+
+/* Lado esquerdo - Informações */
+.card-left {
+    background-color: #1d6dbd; /* Azul do lado esquerdo */
+    width: 50%;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.card-left h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.card-left p {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.card-left button {
+    background-color: white;
+    color: #1d6dbd;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.card-left button:hover {
+    background-color: #ffffff88; /* Leve transparência no hover */
+}
+
+/* Estilizando o robô */
+.card-left img {
+    width: 250px;
+    margin-top: 20px;
+}
+
+/* Lado direito - Formulários */
+.card-right {
+    width: 50%;
+    padding: 50px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.card-right h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #0e3260;
+}
+
+.card-right label {
+    font-size: 16px;
+    color: #0e3260;
+    margin-bottom: 5px;
+}
+
+.card-right input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    font-size: 16px;
+}
+
+.card-right input:focus {
+    outline: none;
+    border-color: #1d6dbd;
+}
+
+.card-right a {
+    color: #1d6dbd;
+    font-size: 14px;
+    text-decoration: none;
+    margin-bottom: 30px;
+    margin-top: -10px;
+    padding-left: 70%;
+    text-wrap: nowrap;
+}
+
+.card-right a:hover {
+    text-decoration: underline;
+}
+
+.card-right button {
+    background-color: #1d6dbd;
+    color: white;
+    border: none;
+    border-radius: 18px;
+    width: fit-content;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.card-right button:hover {
+    background-color: #0e3260;
+}

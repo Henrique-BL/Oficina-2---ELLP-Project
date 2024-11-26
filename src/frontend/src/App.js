@@ -1,9 +1,10 @@
-import Banner from "./componentes/Banner/Banner";
+import React from "react";
+import Login from "./componentes/Login"; // Importa o componente Login
 
 function App() {
     return (
-        <div className="App">
-            <Banner />
+        <div>
+            <Login />
         </div>
     );
 }
