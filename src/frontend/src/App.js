@@ -1,9 +1,11 @@
-import Banner from "./componentes/Banner/Banner";
+import React from "react";
+// import Login from "./componentes/Login";
+import AddVoluntarios from "./componentes/AddVoluntarios";
 
 function App() {
     return (
-        <div className="App">
-            <Banner />
+        <div>
+            <AddVoluntarios />;
         </div>
     );
 }
