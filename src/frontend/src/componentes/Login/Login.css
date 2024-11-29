@@ -1,8 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sniglet:wght@400;800&display=swap");
+
 /* Estilo geral */
 body {
     margin: 0;
-    font-family: "Arial", sans-serif;
-    background-color: #0e3260; /* Fundo azul */
+    background-color: #0e3260;
 }
 
 /* Contêiner principal */
@@ -16,8 +17,8 @@ body {
 /* Card principal */
 .card {
     display: flex;
-    width: 800px;
-    height: 500px;
+    width: 900px;
+    height: 550px;
     background-color: white;
     border-radius: 15px;
     overflow: hidden;
@@ -38,29 +39,35 @@ body {
 }
 
 .card-left h1 {
-    font-size: 36px;
-    margin-bottom: 10px;
+    font-family: "Sniglet", sans-serif;
+    font-weight: 400;
+    font-size: 66px;
+    margin-bottom: 0px;
 }
 
 .card-left p {
-    font-size: 18px;
-    margin-bottom: 20px;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400;
+    font-size: 24px;
+    margin-bottom: 30px;
+    color: #aadcff;
 }
 
 .card-left button {
     background-color: white;
-    color: #1d6dbd;
+    color: #000;
     border: none;
     border-radius: 20px;
     padding: 10px 20px;
     cursor: pointer;
-    font-weight: bold;
     font-size: 16px;
     transition: 0.3s;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400;
 }
 
 .card-left button:hover {
-    background-color: #ffffff88; /* Leve transparência no hover */
+    background-color: #ffffff88;
 }
 
 /* Estilizando o robô */
@@ -79,24 +86,32 @@ body {
 }
 
 .card-right h2 {
-    font-size: 28px;
+    font-family: "Sniglet", sans-serif;
+    font-weight: 400;
+    font-size: 48px;
     margin-bottom: 20px;
     color: #0e3260;
 }
 
 .card-right label {
-    font-size: 16px;
-    color: #0e3260;
-    margin-bottom: 5px;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    color: #000;
+    margin-bottom: 8px;
 }
 
 .card-right input {
-    width: 100%;
+    width: 90%;
     padding: 10px;
     margin-bottom: 20px;
     border: 1px solid #ddd;
-    border-radius: 12px;
+    border-radius: 16px;
     font-size: 16px;
+}
+
+.card-right input::placeholder {
+    color: #ccc;
 }
 
 .card-right input:focus {
@@ -108,9 +123,7 @@ body {
     color: #1d6dbd;
     font-size: 14px;
     text-decoration: none;
-    margin-bottom: 30px;
-    margin-top: -10px;
-    padding-left: 70%;
+    padding-left: 60%;
     text-wrap: nowrap;
 }
 
@@ -132,4 +145,126 @@ body {
 
 .card-right button:hover {
     background-color: #0e3260;
+}
+
+/* RESPONSIVIDADE - Media Queries */
+
+/* Para telas maiores que 1024px (Desktop) */
+@media (min-width: 1024px) {
+    .card {
+        width: 900px;
+        height: 550px;
+    }
+
+    .card-left h1 {
+        font-size: 66px;
+    }
+
+    .card-right h2 {
+        font-size: 48px;
+    }
+}
+
+/* Para tablets (entre 768px e 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .card {
+        width: 80%;
+        height: auto;
+        flex-direction: column;
+    }
+
+    .card-left,
+    .card-right {
+        width: 100%;
+        padding: 30px;
+    }
+
+    .card-left h1 {
+        font-size: 48px;
+    }
+
+    .card-left p {
+        font-size: 18px;
+    }
+
+    .card-left button {
+        width: 80%;
+    }
+
+    .card-right h2 {
+        font-size: 36px;
+    }
+
+    .card-right a {
+        width: 85%;
+        padding-left: 75%;
+    }
+
+    .card-right input {
+        width: 100%;
+    }
+
+    .card-right button {
+        width: 90%;
+        padding: 12px;
+        font-size: 16px;
+        margin-top: 20px;
+    }
+}
+
+/* Para celulares (abaixo de 768px) */
+@media (max-width: 768px) {
+    .card {
+        width: 100%;
+        height: auto;
+        flex-direction: column;
+    }
+
+    .card-left,
+    .card-right {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .card-left h1 {
+        font-size: 36px;
+    }
+
+    .card-left p {
+        font-size: 16px;
+    }
+
+    .card-right h2 {
+        font-size: 28px;
+    }
+
+    .card-right input {
+        width: 85%;
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    .card-right a {
+        width: 85%;
+        padding-left: 55%;
+        font-size: 14px;
+    }
+
+    .card-right button {
+        margin-top: 20px;
+        width: 85%;
+        padding: 10px;
+        font-size: 16px;
+    }
+
+    .card-left button {
+        width: 80%;
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    .card-left img {
+        width: 150px;
+        margin-top: 20px;
+    }
 }
