@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios"; // Importando o Axios
 import "./addVoluntarios.css";
 
 const AddVolunteer = () => {
@@ -8,7 +9,9 @@ const AddVolunteer = () => {
         email: "",
         telefone: "",
         dataIngresso: "",
+        sector: 1, // Assumindo que você já tem um setor para associar
     });
+    const [message, setMessage] = useState("");
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -22,7 +25,6 @@ const AddVolunteer = () => {
     // Função para formatar o telefone
     const formatPhone = (value) => {
         const cleanedValue = value.replace(/\D/g, "");
-
         if (cleanedValue.length <= 2) {
             return `(${cleanedValue}`;
         } else if (cleanedValue.length <= 6) {
@@ -34,10 +36,25 @@ const AddVolunteer = () => {
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Dados enviados:", formData);
-        // Enviar dados para o backend aqui
+        try {
+            const response = await axios.post("http://localhost:8000/volunteers/", {
+                name: formData.nome,
+                student_code: formData.ra,
+                email: formData.email,
+                phone: formData.telefone,
+                admission_date: formData.dataIngresso,
+                sector: formData.sector,
+            });
+
+            if (response.status === 201) {
+                setMessage("Voluntário cadastrado com sucesso!");
+            }
+        } catch (error) {
+            setMessage("Erro ao cadastrar voluntário.");
+            console.error(error);
+        }
     };
 
     return (
@@ -62,8 +79,6 @@ const AddVolunteer = () => {
                                 onChange={handleChange}
                                 placeholder="Digite o nome"
                                 required
-                                pattern="^[a-zA-ZÀ-ÿ\s]+$"
-                                title="O nome deve conter apenas letras."
                             />
                         </div>
 
@@ -77,8 +92,6 @@ const AddVolunteer = () => {
                                 onChange={handleChange}
                                 placeholder="Digite o RA"
                                 required
-                                pattern="^\d+$"
-                                title="O RA deve conter apenas números."
                             />
                         </div>
 
@@ -104,24 +117,20 @@ const AddVolunteer = () => {
                                 value={formData.telefone}
                                 onChange={handleChange}
                                 placeholder="(XX) XXXXX-XXXX"
-                                pattern="^\(\d{2}\)\s\d{4,5}-\d{4}$"
-                                title="Digite um número de telefone válido, como (11) 98765-4321."
                                 required
                             />
                         </div>
 
                         <div className="input-group">
                             <label htmlFor="dataIngresso">Data de ingresso:</label>
-                            <div className="date-picker-container">
-                                <input
-                                    type="date"
-                                    id="dataIngresso"
-                                    name="dataIngresso"
-                                    value={formData.dataIngresso}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
+                            <input
+                                type="date"
+                                id="dataIngresso"
+                                name="dataIngresso"
+                                value={formData.dataIngresso}
+                                onChange={handleChange}
+                                required
+                            />
                         </div>
                     </fieldset>
 
@@ -129,6 +138,8 @@ const AddVolunteer = () => {
                         Cadastrar
                     </button>
                 </form>
+
+                {message && <p>{message}</p>}
             </div>
         </div>
     );
