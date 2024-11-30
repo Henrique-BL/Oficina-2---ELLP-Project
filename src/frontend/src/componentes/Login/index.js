@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Login.css";
 
 function Login() {
     const [isRegistering, setIsRegistering] = useState(false);
+    const navigate = useNavigate();
 
     const toggleForm = () => {
         setIsRegistering(!isRegistering);
@@ -14,6 +16,7 @@ function Login() {
             alert("Cadastro realizado com sucesso!");
         } else {
             alert("Login realizado com sucesso!");
+            navigate("/home");
         }
     };
 
@@ -60,7 +63,7 @@ function Login() {
                             name="senha"
                             placeholder="Digite sua senha"
                             required
-                            minlength="8"
+                            minLength="8"
                             title="A senha deve ter pelo menos 8 caracteres."
                         />
 

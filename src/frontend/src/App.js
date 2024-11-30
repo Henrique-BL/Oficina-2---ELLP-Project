@@ -1,11 +1,20 @@
 import React from "react";
-import Login from "./componentes/Login"; // Importa o componente Login
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from "./componentes/Login";
+import AddVolunteer from "./componentes/AddVoluntarios";
+import Home from "./componentes/Inicio";
+import VolunteerList from "./componentes/ListaVoluntarios";
 
 function App() {
     return (
-        <div>
-            <Login />
-        </div>
+        <Router>
+            <Routes>
+                <Route path="/" element={<Login />} />
+                <Route path="/home" element={<Home />} />
+                <Route path="/add-volunteer" element={<AddVolunteer />} />
+                <Route path="/volunteers" element={<VolunteerList />} />
+            </Routes>
+        </Router>
     );
 }
 
