@@ -1,22 +1,52 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./Login.css";
 
 function Login() {
     const [isRegistering, setIsRegistering] = useState(false);
+    const [formData, setFormData] = useState({ nome: "", email: "", senha: "" });
     const navigate = useNavigate();
 
     const toggleForm = () => {
         setIsRegistering(!isRegistering);
     };
 
-    const handleSubmit = (e) => {
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({ ...prevData, [name]: value }));
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (isRegistering) {
-            alert("Cadastro realizado com sucesso!");
-        } else {
-            alert("Login realizado com sucesso!");
-            navigate("/home");
+        try {
+            if (isRegistering) {
+                // Chamada para a rota de cadastro
+                const response = await axios.post("http://localhost:8000/register", {
+                    name: formData.nome,
+                    email: formData.email,
+                    password: formData.senha,
+                });
+                alert("Cadastro realizado com sucesso!");
+                console.log(response.data);
+                setIsRegistering(false); // Alterna para a tela de login após o cadastro
+            } else {
+                // Chamada para a rota de login
+                const response = await axios.post("http://localhost:8000/login", {
+                    email: formData.email,
+                    password: formData.senha,
+                });
+                alert("Login realizado com sucesso!");
+                console.log(response.data);
+                navigate("/home");
+            }
+        } catch (error) {
+            if (error.response) {
+                alert(`Erro: ${error.response.data.detail}`);
+            } else {
+                alert("Erro ao conectar ao servidor. Tente novamente mais tarde.");
+            }
+            console.error(error);
         }
     };
 
@@ -41,6 +71,8 @@ function Login() {
                                     type="text"
                                     name="nome"
                                     placeholder="Digite seu nome"
+                                    value={formData.nome}
+                                    onChange={handleChange}
                                     required
                                     pattern="^[a-zA-ZÀ-ÿ\s]+$"
                                     title="O nome deve conter apenas letras e espaços."
@@ -53,6 +85,8 @@ function Login() {
                             type="email"
                             name="email"
                             placeholder="Digite seu email"
+                            value={formData.email}
+                            onChange={handleChange}
                             required
                             title="Digite um email válido no formato exemplo@dominio.com"
                         />
@@ -62,6 +96,8 @@ function Login() {
                             type="password"
                             name="senha"
                             placeholder="Digite sua senha"
+                            value={formData.senha}
+                            onChange={handleChange}
                             required
                             minLength="8"
                             title="A senha deve ter pelo menos 8 caracteres."
