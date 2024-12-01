@@ -1,6 +1,5 @@
 from typing import Annotated
 from pydantic import Field
-from datetime import datetime
 from schemas.BaseSchema import BaseSchema, OutMixin
 
 class AdminSchema(BaseSchema):

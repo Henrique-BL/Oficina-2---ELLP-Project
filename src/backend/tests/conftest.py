@@ -67,6 +67,12 @@ def volunteer_data():
         "name": "John Doe",
         "email": "john@example.com",
         "phone": "1234567890",
-        "student_code": "12345",
-        "is_active": True
+        "student_code": "12345"
+    }
+@pytest.fixture(scope="session")
+def admin_data():
+    return {
+        "name": "Admin",
+        "email": "admin@example.com",
+        "password": "password"
     }

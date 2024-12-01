@@ -22,7 +22,7 @@ function Login() {
         try {
             if (isRegistering) {
                 // Chamada para a rota de cadastro
-                const response = await axios.post("http://localhost:8000/admin/register", {
+                const response = await axios.post("http://localhost:8000/admins/register", {
                     name: formData.nome,
                     email: formData.email,
                     password: formData.senha,
@@ -32,7 +32,7 @@ function Login() {
                 setIsRegistering(false); // Alterna para a tela de login após o cadastro
             } else {
                 // Chamada para a rota de login
-                const response = await axios.post("http://localhost:8000/admin/login", {
+                const response = await axios.post("http://localhost:8000/admins/login", {
                     email: formData.email,
                     password: formData.senha,
                 });
