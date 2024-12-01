@@ -70,10 +70,3 @@ async def volunteer_data():
         "student_code": "12345",
         "is_active": True
     }
-@pytest_asyncio.fixture(scope="session")
-async def sector_data():
-    return {
-        "name": "Technology",
-        "description": "Tech department",
-        "code_name": "tech"
-    }

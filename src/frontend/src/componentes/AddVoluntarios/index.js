@@ -7,9 +7,7 @@ const AddVolunteer = () => {
         nome: "",
         ra: "",
         email: "",
-        telefone: "",
-        dataIngresso: "",
-        sector: 1, // Assumindo que você já tem um setor para associar
+        telefone: ""
     });
     const [message, setMessage] = useState("");
 
@@ -43,9 +41,7 @@ const AddVolunteer = () => {
                 name: formData.nome,
                 student_code: formData.ra,
                 email: formData.email,
-                phone: formData.telefone,
-                admission_date: formData.dataIngresso,
-                sector: formData.sector,
+                phone: formData.telefone
             });
 
             if (response.status === 201) {
@@ -121,17 +117,6 @@ const AddVolunteer = () => {
                             />
                         </div>
 
-                        <div className="input-group">
-                            <label htmlFor="dataIngresso">Data de ingresso:</label>
-                            <input
-                                type="date"
-                                id="dataIngresso"
-                                name="dataIngresso"
-                                value={formData.dataIngresso}
-                                onChange={handleChange}
-                                required
-                            />
-                        </div>
                     </fieldset>
 
                     <button type="submit" className="btn-cadastrar">
