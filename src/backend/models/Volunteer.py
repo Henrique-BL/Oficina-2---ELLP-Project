@@ -14,6 +14,3 @@ class Volunteer(BaseModel):
     student_code: Mapped[str] = mapped_column(String(255), nullable=False)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now, nullable=False)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
-    sector: Mapped[UUID] = mapped_column(PG_UUID(as_uuid=True), ForeignKey("sectors.id"), nullable=False)
-
-    

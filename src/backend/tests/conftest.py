@@ -70,17 +70,3 @@ def volunteer_data():
         "student_code": "12345",
         "is_active": True
     }
-@pytest.fixture(scope="session")
-def admin_data():
-    return {
-        "name": "John Doe",
-        "email": "john@example.com",
-        "password": "1234567890"
-    }
-@pytest.fixture(scope="session")
-def sector_data():
-    return {
-        "name": "Technology",
-        "description": "Tech department",
-        "code_name": "tech"
-    }
