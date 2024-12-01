@@ -61,8 +61,8 @@ async def client_test():
         yield client
     app.dependency_overrides.clear()
 
-@pytest_asyncio.fixture(scope="session")
-async def volunteer_data():
+@pytest.fixture(scope="session")
+def volunteer_data():
     return {
         "name": "John Doe",
         "email": "john@example.com",
@@ -70,8 +70,15 @@ async def volunteer_data():
         "student_code": "12345",
         "is_active": True
     }
-@pytest_asyncio.fixture(scope="session")
-async def sector_data():
+@pytest.fixture(scope="session")
+def admin_data():
+    return {
+        "name": "John Doe",
+        "email": "john@example.com",
+        "password": "1234567890"
+    }
+@pytest.fixture(scope="session")
+def sector_data():
     return {
         "name": "Technology",
         "description": "Tech department",
