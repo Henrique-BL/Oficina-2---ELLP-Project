@@ -1,100 +1,72 @@
 import pytest
-from typing import AsyncGenerator
-from fastapi.testclient import TestClient
-from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.pool import StaticPool
-from models.Sector import Sector
+import pytest_asyncio
 from app import app
-from configs.dependencies import get_session
+from configs.dependencies import get_session, get_test_session
 from models.BaseModel import BaseModel
 import asyncpg
-import asyncio
-
-# Test database URL and connection parameters
-DB_USER = "root"
-DB_PASS = "root"
-DB_HOST = "localhost"
+from configs.settings import settings
+from fastapi.testclient import TestClient
 DB_NAME = "test_ellp_db"
-TEST_DATABASE_URL = f"postgresql+asyncpg://{DB_USER}:{DB_PASS}@{DB_HOST}/{DB_NAME}"
+
 
 async def create_database():
-    conn = await asyncpg.connect(
-        user=DB_USER,
-        password=DB_PASS,
-        host=DB_HOST,
-        database="postgres"
-    )
-    
-    # Drop database if exists and create new one
-    await conn.execute(f'DROP DATABASE IF EXISTS {DB_NAME}')
-    await conn.execute(f'CREATE DATABASE {DB_NAME}')
-    await conn.close()
+    conn = await asyncpg.connect(settings.TEST_DB_URL.replace("test_ellp_db", "postgres").replace("postgresql+asyncpg", "postgresql"))
+    try:
+        await conn.execute(f"""
+            SELECT pg_terminate_backend(pg_stat_activity.pid)
+            FROM pg_stat_activity
+            WHERE pg_stat_activity.datname = '{DB_NAME}'
+            AND pid <> pg_backend_pid()
+        """)
+        await conn.execute(f'DROP DATABASE IF EXISTS {DB_NAME}')
+        await conn.execute(f'CREATE DATABASE {DB_NAME}')
+    finally:
+        await conn.close()
+        
 
 async def drop_database():
-    conn = await asyncpg.connect(
-        user=DB_USER,
-        password=DB_PASS,
-        host=DB_HOST,
-        database="postgres"
-    )
-    
-    await conn.execute(f'DROP DATABASE IF EXISTS {DB_NAME}')
-    await conn.close()
+    conn = await asyncpg.connect(settings.TEST_DB_URL.replace("test_ellp_db", "postgres").replace("postgresql+asyncpg", "postgresql"))
+    try:
+        await conn.execute(f"""
+            SELECT pg_terminate_backend(pg_stat_activity.pid)
+            FROM pg_stat_activity
+            WHERE pg_stat_activity.datname = '{DB_NAME}'
+            AND pid <> pg_backend_pid()
+        """)
+        await conn.execute(f'DROP DATABASE IF EXISTS {DB_NAME}')
+    finally:
+        await conn.close()
 
-@pytest.fixture(scope="session", autouse=True)
-def create_test_database():
-    asyncio.run(create_database())
+async def create_tables(db_session):
+    async for session in db_session:
+        async with session.begin(): await session.run_sync(lambda sync_session: BaseModel.metadata.create_all(sync_session.connection()))
+
+@pytest_asyncio.fixture(scope="function", autouse=True)
+async def create_test_database():
+    print('Creating database')
+    await create_database()
+    print('Creating tables')
+    await create_tables(get_test_session())
     yield
-    asyncio.run(drop_database())
+    print('Dropping database')
+    await drop_database()
 
-@pytest.fixture
-async def async_session() -> AsyncGenerator[AsyncSession, None]:
-    engine = create_async_engine(
-        TEST_DATABASE_URL,
-        echo=False,
-        poolclass=StaticPool,
-    )
     
-    async_session = sessionmaker(
-        engine, class_=AsyncSession, expire_on_commit=False
-    )
-    
-    async with engine.begin() as conn:
-        await conn.run_sync(BaseModel.metadata.create_all)
-    
-    async with async_session() as session:
-        # Create a test sector
-        sector = Sector(
-            name="Technology",
-            description="Tech department",
-            code_name="TECH"
-        )
-        session.add(sector)
-        await session.commit()
-        
-        yield session
-        
-    async with engine.begin() as conn:
-        await conn.run_sync(BaseModel.metadata.drop_all)
-
-@pytest.fixture
-async def client(async_session: AsyncSession) -> AsyncGenerator[TestClient, None]:
-    async def override_get_session() -> AsyncGenerator[AsyncSession, None]:
-        yield async_session
-        
-    app.dependency_overrides[get_session] = override_get_session
-    yield TestClient(app)
+@pytest_asyncio.fixture(scope="session")
+async def client_test():
+    app.dependency_overrides.clear()
+    app.dependency_overrides[get_session] = get_test_session
+    print('app', app.dependency_overrides[get_session])
+    with TestClient(app) as client:
+        yield client
     app.dependency_overrides.clear()
 
-@pytest.fixture
-def volunteer_data():
+@pytest_asyncio.fixture(scope="session")
+async def volunteer_data():
     return {
         "name": "John Doe",
         "email": "john@example.com",
         "phone": "1234567890",
         "student_code": "12345",
-        "sector": {
-            "name": "Technology"
-        }
+        "is_active": True
     }
