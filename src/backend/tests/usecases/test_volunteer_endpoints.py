@@ -5,7 +5,6 @@ from fastapi import status
 @pytest.mark.asyncio
 async def test_create_volunteer(client_test, volunteer_data):
     client = client_test
-
     response =  client.post("/volunteers/", json=volunteer_data)
     print('Response', response.json())
     assert response.status_code == status.HTTP_201_CREATED

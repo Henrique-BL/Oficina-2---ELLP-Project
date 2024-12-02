@@ -35,7 +35,7 @@ async def register_admin(db_session: DataBaseDependency, admin_in: AdminInRegist
         admin_register = AdminOutRegister(
             id=uuid4(), 
             created_at=datetime.utcnow(), 
-            **admin_in.model_dump()
+            **admin_data
         )
         admin_model = Admin(**admin_register.model_dump())
         db_session.add(admin_model)
@@ -54,11 +54,12 @@ async def login_admin(db_session: DataBaseDependency, admin_in: AdminInLogin = B
     admin = (await db_session.execute(select(Admin).filter_by(email=admin_in.email))).scalar_one_or_none()
     if not admin:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Admin not found")    
-    
-    if not pwd_context.verify(admin_in.password, admin.password):
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid password")
-    
-    return admin
+    try:
+        if not pwd_context.verify(admin_in.password, admin.password):
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid password")
+        return admin
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
 
 
 @router.get("/", response_model=list[AdminOut], status_code=status.HTTP_200_OK)
