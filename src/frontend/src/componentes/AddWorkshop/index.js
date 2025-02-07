@@ -11,6 +11,7 @@ export default function CadastroWorkshop() {
         name: "",
         date: "",
         description: "",
+        workload: "", // Novo campo para carga horária
     });
 
     const handleWorkshopChange = (e) => {
@@ -20,7 +21,7 @@ export default function CadastroWorkshop() {
     const handleWorkshopSubmit = () => {
         const newWorkshop = { ...workshopData, id: Date.now() };
         setWorkshops([...workshops, newWorkshop]);
-        setWorkshopData({ name: "", date: "", description: "" });
+        setWorkshopData({ name: "", date: "", description: "", workload: "" }); // Limpa o campo de carga horária também
     };
 
     const handleVolunteerSelect = (volunteerId) => {
@@ -71,6 +72,16 @@ export default function CadastroWorkshop() {
                             name="description"
                             placeholder="Descrição"
                             value={workshopData.description}
+                            onChange={handleWorkshopChange}
+                        />
+                    </div>
+                    <div className="input-group">
+                        <label>Carga Horária:</label>
+                        <input
+                            type="text"
+                            name="workload"
+                            placeholder="Carga Horária"
+                            value={workshopData.workload}
                             onChange={handleWorkshopChange}
                         />
                     </div>
