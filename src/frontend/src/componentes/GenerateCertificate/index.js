@@ -103,7 +103,7 @@ const GerarCertificados = () => {
             doc.text(`Data de emissão: ${dataFormatada}`, 20, 90);
 
             // Salva o PDF
-            doc.save(`Certificado_${voluntario.nome}.pdf`);
+            doc.save(`Certificado_${voluntario.name}.pdf`);
         } catch (error) {
             setError("Erro ao gerar certificado");
             console.error("Erro ao gerar certificado:", error);
