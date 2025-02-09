@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import "./addWorkshop.css";
 
 export default function CadastroWorkshop() {
@@ -6,22 +7,52 @@ export default function CadastroWorkshop() {
     const [volunteers, setVolunteers] = useState([]);
     const [selectedWorkshop, setSelectedWorkshop] = useState(null);
     const [selectedVolunteers, setSelectedVolunteers] = useState([]);
-
     const [workshopData, setWorkshopData] = useState({
         name: "",
         date: "",
         description: "",
-        workload: "", // Novo campo para carga horária
+        workload: "",
     });
+
+    useEffect(() => {
+        const fetchWorkshops = async () => {    
+        // Carregar workshops existentes
+        await axios
+            .get("http://localhost:8000/workshops")
+            .then((response) => {
+                setWorkshops(response.data);
+            })
+            .catch((error) => {
+                console.error("Erro ao carregar workshops:", error);
+            });
+
+        // Carregar voluntários cadastrados
+        await axios
+            .get("http://localhost:8000/volunteers")
+            .then((response) => {
+                setVolunteers(response.data);
+            })
+
+            .catch((error) => {
+                console.error("Erro ao carregar voluntários:", error);
+            });
+        };
+        fetchWorkshops();
+    }, []);
+
 
     const handleWorkshopChange = (e) => {
         setWorkshopData({ ...workshopData, [e.target.name]: e.target.value });
     };
 
-    const handleWorkshopSubmit = () => {
-        const newWorkshop = { ...workshopData, id: Date.now() };
-        setWorkshops([...workshops, newWorkshop]);
-        setWorkshopData({ name: "", date: "", description: "", workload: "" }); // Limpa o campo de carga horária também
+    const handleWorkshopSubmit = async () => {
+        try {
+            const response = await axios.post("http://localhost:8000/workshops/", workshopData);
+            setWorkshops([...workshops, response.data]);
+            setWorkshopData({ name: "", date: "", description: "", workload: "" });
+        } catch (error) {
+            console.error("Erro ao cadastrar workshop:", error);
+        }
     };
 
     const handleVolunteerSelect = (volunteerId) => {
@@ -30,13 +61,20 @@ export default function CadastroWorkshop() {
         );
     };
 
-    const handleVolunteerSubmit = () => {
+    const handleVolunteerSubmit = async () => {
         if (selectedWorkshop) {
-            const updatedWorkshops = workshops.map((w) =>
-                w.id === selectedWorkshop ? { ...w, volunteers: [...(w.volunteers || []), ...selectedVolunteers] } : w
-            );
-            setWorkshops(updatedWorkshops);
-            setSelectedVolunteers([]);
+            try {
+                await axios.post(`http://localhost:8000/volunteers/workshops/${selectedWorkshop}`, {
+                    volunteers: selectedVolunteers
+                });
+                // Atualiza a lista de workshops com os novos voluntários
+
+                const updatedWorkshop = await axios.get(`http://localhost:8000/workshops/${selectedWorkshop}`);
+                setWorkshops(workshops.map((w) => (w.id === selectedWorkshop ? updatedWorkshop.data : w)));
+                setSelectedVolunteers([]);
+            } catch (error) {
+                console.error("Erro ao incluir voluntários no workshop:", error);
+            }
         }
     };
 
@@ -118,7 +156,7 @@ export default function CadastroWorkshop() {
                         </div>
                     ))}
                 </fieldset>
-                <button className="btn-cadastrar" onClick={handleVolunteerSubmit}>
+                <button className="btn-cadastrar" onClick={handleVolunteerSubmit} disabled={!selectedWorkshop}>
                     Incluir Voluntários
                 </button>
             </div>
