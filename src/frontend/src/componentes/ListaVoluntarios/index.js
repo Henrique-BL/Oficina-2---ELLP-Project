@@ -32,10 +32,10 @@ const ListaVoluntarios = () => {
                         {volunteers.map((volunteer) => (
                             <li key={volunteer.id}>
                                 <p>
-                                    <strong>Nome:</strong> {volunteer.nome}
+                                    <strong>Nome:</strong> {volunteer.name}
                                 </p>
                                 <p>
-                                    <strong>RA:</strong> {volunteer.ra}
+                                    <strong>RA:</strong> {volunteer.student_code}
                                 </p>
                                 <p>
                                     <strong>Email:</strong> {volunteer.email}
