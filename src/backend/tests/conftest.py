@@ -1,3 +1,7 @@
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).parent.parent))
+
 import pytest
 import pytest_asyncio
 from app import app
@@ -75,4 +79,13 @@ def admin_data():
         "name": "Admin",
         "email": "admin@example.com",
         "password": "password"
+    }
+
+@pytest.fixture(scope="session")
+def workshop_data():
+    return {
+        "name": "Workshop",
+        "description": "Workshop description",
+        "date": "2024-01-01",
+        "workload": "10h"
     }

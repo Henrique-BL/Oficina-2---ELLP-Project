@@ -1,6 +1,5 @@
 from typing import Annotated
 from pydantic import Field
-from pydantic.types import UUID
 from schemas.BaseSchema import BaseSchema, OutMixin
 
 class VolunteerBaseSchema(BaseSchema):

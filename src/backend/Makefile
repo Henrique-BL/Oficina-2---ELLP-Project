@@ -1,5 +1,5 @@
 run:
-	uvicorn app:app --reload
+	uvicorn app:app --reload 
 	
 create-migration:
 	set "PYTHONPATH=%PYTHONPATH%;$(subst /,\,$(CURDIR))" && alembic revision --autogenerate -m "$(d)"

@@ -32,6 +32,30 @@ async def create_volunteer(db_session: DataBaseDependency, volunteer_in: Volunte
     finally:
         await db_session.close()
 
+@router.post("/workshops/{workshop_id}", response_model=list[VolunteerOut], status_code=status.HTTP_201_CREATED)
+async def add_volunteers_to_workshop(
+    workshop_id: str,
+    db_session: DataBaseDependency,
+    volunteers: list[str] = Body(..., embed=True)
+) -> list[VolunteerOut]:
+    volunteers_out = []
+    for volunteer_id in volunteers:
+        volunteer = (await db_session.execute(
+            select(Volunteer).filter_by(id=volunteer_id)
+        )).scalar_one_or_none()
+        
+        if not volunteer:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"The volunteer with id {volunteer_id} does not exist",
+            )
+            
+        volunteer.workshop_id = workshop_id
+        volunteers_out.append(VolunteerOut.model_validate(volunteer))
+    
+    await db_session.commit()
+    return volunteers_out
+
 @router.get("/", response_model=list[VolunteerOut], status_code=status.HTTP_200_OK)
 async def query(db_session: DataBaseDependency) -> list[VolunteerOut]:
     volunteers: list[VolunteerOut] = (await db_session.execute(select(Volunteer))).scalars().all()

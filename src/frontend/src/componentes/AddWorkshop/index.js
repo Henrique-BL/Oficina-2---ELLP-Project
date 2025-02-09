@@ -15,9 +15,10 @@ export default function CadastroWorkshop() {
     });
 
     useEffect(() => {
+        const fetchWorkshops = async () => {    
         // Carregar workshops existentes
-        axios
-            .get("http://localhost:8000/api/workshops")
+        await axios
+            .get("http://localhost:8000/workshops")
             .then((response) => {
                 setWorkshops(response.data);
             })
@@ -26,15 +27,19 @@ export default function CadastroWorkshop() {
             });
 
         // Carregar voluntários cadastrados
-        axios
-            .get("http://localhost:8000/api/volunteers")
+        await axios
+            .get("http://localhost:8000/volunteers")
             .then((response) => {
                 setVolunteers(response.data);
             })
+
             .catch((error) => {
                 console.error("Erro ao carregar voluntários:", error);
             });
+        };
+        fetchWorkshops();
     }, []);
+
 
     const handleWorkshopChange = (e) => {
         setWorkshopData({ ...workshopData, [e.target.name]: e.target.value });
@@ -42,7 +47,7 @@ export default function CadastroWorkshop() {
 
     const handleWorkshopSubmit = async () => {
         try {
-            const response = await axios.post("http://localhost:8000/api/workshops", workshopData);
+            const response = await axios.post("http://localhost:8000/workshops/", workshopData);
             setWorkshops([...workshops, response.data]);
             setWorkshopData({ name: "", date: "", description: "", workload: "" });
         } catch (error) {
@@ -59,11 +64,12 @@ export default function CadastroWorkshop() {
     const handleVolunteerSubmit = async () => {
         if (selectedWorkshop) {
             try {
-                await axios.post(`http://localhost:8000/api/workshops/${selectedWorkshop}/volunteers`, {
-                    volunteers: selectedVolunteers,
+                await axios.post(`http://localhost:8000/volunteers/workshops/${selectedWorkshop}`, {
+                    volunteers: selectedVolunteers
                 });
                 // Atualiza a lista de workshops com os novos voluntários
-                const updatedWorkshop = await axios.get(`http://localhost:8000/api/workshops/${selectedWorkshop}`);
+
+                const updatedWorkshop = await axios.get(`http://localhost:8000/workshops/${selectedWorkshop}`);
                 setWorkshops(workshops.map((w) => (w.id === selectedWorkshop ? updatedWorkshop.data : w)));
                 setSelectedVolunteers([]);
             } catch (error) {
