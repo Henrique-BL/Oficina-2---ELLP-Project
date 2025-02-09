@@ -12,36 +12,49 @@ const GerarCertificados = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        // Carregar workshops ao montar o componente
-        axios
-            .get("http://localhost:8000/api/workshops")
+        const fetchWorkshops = async () => {
+            // Carregar workshops ao montar o componente
+            await axios
+                .get("http://localhost:8000/workshops")
+
             .then((response) => {
+                console.log("Workshops", response.data);
                 setWorkshops(response.data);
             })
             .catch((err) => {
                 setError("Erro ao carregar workshops");
-                console.error(err);
-            });
+                    console.error(err);
+                });
+        };
+        fetchWorkshops();
     }, []);
+
 
     // Atualiza a lista de voluntários ao selecionar um workshop
     const handleWorkshopChange = (event) => {
         const idSelecionado = event.target.value;
+        console.log(idSelecionado);
         setWorkshopSelecionado(idSelecionado);
 
         if (idSelecionado) {
-            axios
-                .get(`http://localhost:8000/api/workshops/${idSelecionado}/volunteers`)
-                .then((response) => {
+            const fetchVolunteers = async () => {
+                await axios
+                    .get(`http://localhost:8000/volunteers/workshops/${idSelecionado}`)
+                    .then((response) => {
+
                     setVoluntarios(response.data);
                 })
+
                 .catch((err) => {
                     setError("Erro ao carregar voluntários");
                     console.error(err);
                 });
+            };
+            fetchVolunteers();
         } else {
             setVoluntarios([]);
         }
+
     };
 
     // Função para gerar certificado em PDF
@@ -51,17 +64,15 @@ const GerarCertificados = () => {
         setLoading(true);
 
         try {
-            const workshop = workshops.find((w) => w.id == workshopSelecionado);
+            const workshop = workshops.find((w) => w.id === workshopSelecionado);
             if (!workshop) {
                 setError("Workshop não encontrado");
                 return;
             }
 
             // Chamada ao back-end para gerar certificado
-            const response = await axios.post("http://localhost:8000/api/certificates", {
-                volunteerId: voluntario.id,
-                workshopId: workshop.id,
-            });
+            // const response = await axios.get(`http://localhost:8000/volunteers/${voluntario.id}/workshops/${workshop.id}`);
+
 
             setCertificadosGerados((prev) => ({
                 ...prev,
@@ -69,7 +80,7 @@ const GerarCertificados = () => {
             }));
 
             // Supondo que o back-end retorna o PDF ou informações necessárias para gerá-lo
-            console.log("Certificado Gerado:", response.data);
+            // console.log("Certificado Gerado:", response.data);
 
             const doc = new jsPDF();
 
@@ -79,9 +90,10 @@ const GerarCertificados = () => {
 
             doc.setFont("helvetica", "normal");
             doc.setFontSize(16);
-            doc.text(`Certificamos que ${voluntario.nome}`, 20, 50);
-            doc.text(`participou do workshop "${workshop.nome}"`, 20, 60);
-            doc.text(`com carga horária de ${workshop.cargaHoraria} horas.`, 20, 70);
+            doc.text(`Certificamos que ${voluntario.name}`, 20, 50);
+            doc.text(`participou do workshop "${workshop.name}"`, 20, 60);
+            doc.text(`com carga horária de ${workshop.workload} horas.`, 20, 70);
+
 
             const dataAtual = new Date();
             const dataFormatada = `${dataAtual.getDate().toString().padStart(2, "0")}/${(dataAtual.getMonth() + 1)
@@ -110,7 +122,7 @@ const GerarCertificados = () => {
                     <option value="">-- Escolha um Workshop --</option>
                     {workshops.map((workshop) => (
                         <option key={workshop.id} value={workshop.id}>
-                            {workshop.nome}
+                            {workshop.name}
                         </option>
                     ))}
                 </select>
@@ -122,7 +134,7 @@ const GerarCertificados = () => {
                     <ul>
                         {voluntarios.map((voluntario) => (
                             <li key={voluntario.id}>
-                                {voluntario.nome}
+                                {voluntario.name}
                                 {certificadosGerados[voluntario.id] ? (
                                     <span className="certificado-gerado">Certificado Gerado</span>
                                 ) : (

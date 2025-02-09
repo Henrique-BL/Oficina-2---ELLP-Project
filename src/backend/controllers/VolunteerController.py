@@ -72,6 +72,17 @@ async def get(id: UUID4, db_session: DataBaseDependency) -> VolunteerOut:
         )
     return volunteer
 
+@router.get("/workshops/{workshop_id}", response_model=list[VolunteerOut])
+async def get_volunteers_by_workshop(workshop_id: UUID4, db_session: DataBaseDependency) -> list[VolunteerOut]:
+    volunteers: list[VolunteerOut] = (await db_session.execute(select(Volunteer).filter_by(workshop_id=workshop_id))).scalars().all()
+    if not volunteers:
+
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"The volunteer with id {workshop_id} was not found",
+        )
+    return volunteers
+
 @router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete(id: UUID4, db_session: DataBaseDependency):
     volunteer: VolunteerOut = (await db_session.execute(select(Volunteer).filter_by(id=id))).scalar_one_or_none()
